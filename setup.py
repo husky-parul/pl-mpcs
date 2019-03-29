@@ -15,7 +15,7 @@ def readme():
 
 setup(
       name             =   'mpcs',
-      version          =   '1.0.1',
+      version          =   '1.0.2',
       description      =   'This app simulates an MPC compute call and creates a z-score file.', 
       long_description =   readme(),
       author           =   'Rudolph Pienaar',

@@ -129,6 +129,8 @@ Examples
 Create a z-file with values between -3.0 and +3.0
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+.. code:: bash
+
     mkdir in out && chmod 777 out
     docker run --rm -v $(pwd)/in:/incoming -v $(pwd)/out:/outgoing      \
             fnndsc/pl-mpcs mpcs.py                                      \
