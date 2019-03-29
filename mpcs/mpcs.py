@@ -41,7 +41,6 @@ Gstr_synopsis = """
             [--random] [--seed <seed>]                                  \\
             [-p <f_posRange>] [--posRange <f_posRange>]                 \\
             [-n <f_negRange>] [--negRange <f_negRange>]                 \\
-            [-s <f_scaleRange>] [--scaleRange <f_scaleRange>]           \\
             [-z <zFile>] [--zFile <zFile>]                              \\
             [-v <level>] [--verbosity <level>]                          \\
             [--version]                                                 \\
@@ -119,7 +118,7 @@ class Mpcs(ChrisApp):
     TYPE                    = 'ds'
     DESCRIPTION             = 'This app simulates an MPC compute call.'
     DOCUMENTATION           = 'https://github.com/FNNDSC/pl-mpcs'
-    VERSION                 = '1.0.0'
+    VERSION                 = '1.0.1'
     ICON                    = '' # url of an icon image
     LICENSE                 = 'Opensource (MIT)'
     MAX_NUMBER_OF_WORKERS   = 1  # Override with integer value
