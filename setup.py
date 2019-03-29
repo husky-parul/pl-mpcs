@@ -15,14 +15,14 @@ def readme():
 
 setup(
       name             =   'mpcs',
-      version          =   '1.0.2',
+      version          =   '1.0.3',
       description      =   'This app simulates an MPC compute call and creates a z-score file.', 
       long_description =   readme(),
       author           =   'Rudolph Pienaar',
       author_email     =   'rudolph.pienaar@gmail.com',
       url              =   'https://github.com/FNNDSC/pl-mpcs',
       packages         =   ['mpcs'],
-      install_requires =   ['chrisapp', 'pudb'],
+      install_requires =   ['chrisapp', 'pudb', 'numpy'],
       test_suite       =   'nose.collector',
       tests_require    =   ['nose'],
       scripts          =   ['mpcs/mpcs.py'],

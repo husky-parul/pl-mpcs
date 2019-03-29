@@ -118,7 +118,7 @@ class Mpcs(ChrisApp):
     TYPE                    = 'ds'
     DESCRIPTION             = 'This app simulates an MPC compute call.'
     DOCUMENTATION           = 'https://github.com/FNNDSC/pl-mpcs'
-    VERSION                 = '1.0.2'
+    VERSION                 = '1.0.3'
     ICON                    = '' # url of an icon image
     LICENSE                 = 'Opensource (MIT)'
     MAX_NUMBER_OF_WORKERS   = 1  # Override with integer value
