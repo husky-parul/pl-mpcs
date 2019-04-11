@@ -16,6 +16,10 @@ import  copy
 import  shutil
 import  csv
 import  numpy               as      np
+import time
+import csv
+import requests, json
+from base64 import b64decode
 
 # import the Chris app superclass
 from    chrisapp.base       import ChrisApp
@@ -142,7 +146,12 @@ class Mpcs(ChrisApp):
     # flag. Note also that all file paths are relative to the system specified
     # output directory.
     OUTPUT_META_DICT = {}
+
+    def __init__(self):
+        self.conclave_url = 'http://conclave-web-cici.k-apps.osh.massopen.cloud/api/'
+        self.header = {"Content-type": "application/json"} 
  
+
     def manPage_show(self):
         """
         Print some quick help.
@@ -353,6 +362,56 @@ class Mpcs(ChrisApp):
                             optional    = True,
                             default     = False)
 
+    def do_post(self,api_name, payload):
+        post_url = '%s%s' % (self.conclave_url, api_name)
+        print(post_url)
+        req = requests.post(post_url, json=payload)
+        print(req)
+        return req.json(), req.status_code
+        
+    def get_result(workflow_name):
+        payload = {
+            'ID':workflow_name
+        }
+        res, res_code = requests.post(url, json=payload)
+        return r.json()['files']
+
+    def submit(self,workflow_name):
+        payload = {
+            "protocol": {
+                "data": "aW1wb3J0IGNvbmNsYXZlLmxhbmcgYXMgY2MKZnJvbSBjb25jbGF2ZS51dGlscyBpbXBvcnQgZGVmQ29sCmZyb20gY29uY2xhdmUgaW1wb3J0IHdvcmtmbG93CgoKZGVmIHByb3RvY29sKCk6CiAgICAiIiIKICAgIERlZmluZSBpbnB1dHMgYW5kIG9wZXJhdGlvbnMgdG8gYmUgcGVyZm9ybWVkIGJldHdlZW4gdGhlbS4KICAgICIiIgoKICAgICIiIgogICAgRGVmaW5lIGlucHV0IGRhdGFzZXRzCiAgICAiIiIKICAgIGNvbHNfaW5fYSA9IFsKICAgICAgICBkZWZDb2woJ2EnLCAnSU5URUdFUicsIFsxXSksCiAgICAgICAgZGVmQ29sKCdiJywgJ0lOVEVHRVInLCBbMV0pLAogICAgXQogICAgY29sc19pbl9iID0gWwogICAgICAgIGRlZkNvbCgnYScsICdJTlRFR0VSJywgWzJdKSwKICAgICAgICBkZWZDb2woJ2InLCAnSU5URUdFUicsIFsyXSksCiAgICBdCiAgICBjb2xzX2luX2MgPSBbCiAgICAgICAgZGVmQ29sKCdhJywgJ0lOVEVHRVInLCBbM10pLAogICAgICAgIGRlZkNvbCgnYicsICdJTlRFR0VSJywgWzNdKSwKICAgIF0KCiAgICAiIiIKICAgIENyZWF0ZSBpbnB1dCByZWxhdGlvbnMuCiAgICAiIiIKICAgIGluMSA9IGNjLmNyZWF0ZSgiaW4xIiwgY29sc19pbl9hLCB7MX0pCiAgICBpbjIgPSBjYy5jcmVhdGUoImluMiIsIGNvbHNfaW5fYiwgezJ9KQogICAgaW4zID0gY2MuY3JlYXRlKCJpbjMiLCBjb2xzX2luX2MsIHszfSkKCiAgICBjYzEgPSBjYy5jb25jYXQoW2luMSwgaW4yLCBpbjNdLCAnY2MxJywgWydhJywgJ2InXSkKCiAgICBhZ2cxID0gY2MuYWdncmVnYXRlKGNjMSwgImFnZzEiLCBbJ2EnXSwgImIiLCAic3VtIiwgImIiKQoKICAgIGNjLmNvbGxlY3QoYWdnMSwgMSkKCiAgICByZXR1cm4ge2luMSwgaW4yLCBpbjN9CgoKaWYgX19uYW1lX18gPT0gIl9fbWFpbl9fIjoKCiAgICB3b3JrZmxvdy5ydW4ocHJvdG9jb2wsIG1wY19mcmFtZXdvcms9ImppZmYiKQ==",
+                "format": "b64"
+            },
+            "config":{
+                "ID": workflow_name,
+                "backend": "swift"
+            },
+            "swift": {
+                "endpoints":[{
+                        "partyId": "mine",
+                        "containerName": "openshift-demo",
+                        "fileName": "in1",
+                        "files": []
+                    },
+                    {
+                        "partyId": "mine",
+                        "containerName": "openshift-demo",
+                        "fileName": "in2",
+                        "files": []
+                    },
+                    {
+                        "partyId": "mine",
+                        "containerName": "openshift-demo",
+                        "fileName": "in3",
+                        "files": []
+                    }]
+            }
+        }
+        res, res_code = self.do_post('submit',workflow_name)
+        print(res, res_code)
+
+
+
     def run(self, options):
         """
         Define the code to be run by this plugin app.
@@ -410,11 +469,15 @@ class Mpcs(ChrisApp):
             # else use system time
             random.seed()
         print("Generating %s/%s..." % (options.outputdir, options.zFile))
-        self.randomZscoreFile_generate('a2009s')
+        # self.randomZscoreFile_generate('a2009s')
+        print('***************************************************')
+        print(self.submit('LH_MEAN'))
         b_zFileProcessed    = True
 
 
 # ENTRYPOINT
 if __name__ == "__main__":
     app = Mpcs()
-    app.launch()
+    print('***************************************************')
+    print(app.submit('LH_MEAN'))
+    # app.launch()
